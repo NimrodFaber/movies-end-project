@@ -4,11 +4,11 @@ const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema(
   {
-    firstName: { String, require: "first name is require" },
-    lastName: { String, require: "last name is require" },
-    password: { String, require: "password is require" },
-    email: { String, require: "email is require", unique: true },
-    phone: { String, require: "phone is require", unique: true },
+    firstName: { type: String, require: "first name is require" },
+    lastName: { type: String, require: "last name is require" },
+    password: { type: String, require: "password is require" },
+    email: { type: String, require: "email is require", unique: true },
+    phone: { type: String, require: "phone is require", unique: true },
     favorite: { type: [String] },
     isAdmin: { type: Boolean, default: false },
   },
@@ -24,6 +24,7 @@ userSchema.methods.validateUserSchema = function () {
       .required(),
     password: joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")),
     phone: joi.string().required(),
+    favorite: joi.required(),
   });
   return userValidition;
 };
