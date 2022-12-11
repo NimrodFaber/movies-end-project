@@ -1,20 +1,18 @@
-// import { useFormik } from "formik";
-// import Joi from "joi";
-// import { useState } from "react";
-// import Input from "./common/input";
-// import PageHeader from "./common/pageHeader";
-// import { formikValidateUsingJoi } from "../utils/formikValidateUsingJoi";
-// import { createUser } from "../services/usersService";
-// import { useNavigate, Navigate } from "react-router-dom";
-// import { toast } from "react-toastify";
-// import { useAuth } from "../context/auth.context";
-
+import { useFormik } from "formik";
+import joi from "joi";
+import { useState } from "react";
+import Input from "../coomon/Input";
 import PageHeader from "../coomon/PageHeader";
+import { formikValidateUsingJoi } from "../utils/formikvalidate";
+import { createUser } from "../../services/userService.js";
+import { useNavigate, Navigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useAuth } from "../../context/authContext";
 
-function Signup() {
-  //   const navigate = useNavigate();
-  //   const { user } = useAuth();
-  //   const [error, setError] = useState("");
+function Signup({ redirect }) {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const [error, setError] = useState("");
   const form = useFormik({
     validateOnMount: true,
     initialValues: {
@@ -23,7 +21,7 @@ function Signup() {
       password: "",
       email: "",
       phone: "",
-      favorite: "",
+      //   favorite: "",
     },
     validate: formikValidateUsingJoi({
       firstName: joi.string().min(3).max(30).required(),
@@ -33,33 +31,31 @@ function Signup() {
         .email({ tlds: { allow: false } })
         .required(),
       password: joi
-        .min(24)
+        .string()
+        .min(4)
         .max(6000)
-        .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$"))
-        .string(),
+        .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")),
       phone: joi.string().required(),
-      favorite: joi.min(10).max(10).required(),
+      //   favorite: joi.string().min(10).max(10).required(),
     }),
-    //  async onSubmit(values) {
-    //       try {
-    //         await createUser({ ...values, biz: false });
-    //         toast("Your account is ready 👏");
+    async onSubmit(values) {
+      try {
+        await createUser({ ...values });
 
-    //         if (redirect) {
-    //           navigate(redirect);
-    //         }
-    //       } catch ({ response }) {
-    //         if (response.status === 400) {
-    //           setError(response.data);
-    //         }
-    //       }
-    //     },
-    //   });
-
-    //   if (user) {
-    //     return <Navigate to="/" />;
-    //   }
+        if (redirect) {
+          navigate(redirect);
+        }
+      } catch ({ response }) {
+        if (response.status === 400) {
+          setError(response.data);
+        }
+      }
+    },
   });
+
+  //   if (user) {
+  //     return <Navigate to="/" />;
+  //   }
 
   return (
     <>
@@ -101,7 +97,11 @@ function Signup() {
           error={form.touched.phone && form.errors.phone}
         />
         <div className="my-2">
-          <button disabled={!form.isValid} className="btn btn-primary">
+          <button
+            type="submit"
+            disabled={!form.isValid}
+            className="btn btn-primary"
+          >
             Sign Up
           </button>
         </div>

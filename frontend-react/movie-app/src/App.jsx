@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import About from "./componnets/pages/About";
 import Home from "./componnets/pages/Home";
 import SignIn from "./componnets/pages/SignIn";
+import Signup from "./componnets/pages/SignUp";
 function App() {
   return (
     <div className="App d-flex  flex-column min-vh-100">
@@ -17,6 +18,10 @@ function App() {
           <Route path="/" element={<Home></Home>}></Route>
           <Route path="/about" element={<About></About>}></Route>
           <Route path="/signin" element={<SignIn></SignIn>}></Route>
+          <Route
+            path="/signup"
+            element={<Signup redirect="/"></Signup>}
+          ></Route>
         </Routes>
       </main>
       <footer>

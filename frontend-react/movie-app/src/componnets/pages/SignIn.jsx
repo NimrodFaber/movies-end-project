@@ -1,16 +1,16 @@
 import Joi from "joi";
-// import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import formikValidateUsingJoi from "../utils/formikvalidate";
 import { useFormik } from "formik";
 import PageHeader from "../coomon/PageHeader";
 
 import Input from "../coomon/Input";
-// import { useAuth } from "../context/auth.context";
+import { useAuth } from "../../context/authContext.jsx";
 function SignIn({ redirect }) {
   const [error, setError] = useState("");
-  //   const { user, login } = useAuth();
-  //   const navigate = useNavigate();
+  const { user, login } = useAuth();
+  const navigate = useNavigate();
   const form = useFormik({
     validateOnMount: true,
     initialValues: {
@@ -25,7 +25,19 @@ function SignIn({ redirect }) {
         .email({ tlds: { allow: false } }),
       password: Joi.string().min(6).max(1024).required(),
     }),
-    async onsubmit(values) {},
+    async onsubmit(values) {
+      try {
+        await login(values);
+
+        if (redirect) {
+          navigate(redirect);
+        }
+      } catch ({ response }) {
+        if (response.status === 400) {
+          setError(response.data);
+        }
+      }
+    },
   });
   return (
     <>

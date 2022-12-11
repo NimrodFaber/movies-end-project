@@ -1,13 +1,13 @@
 import httpService from "./httpService";
 import jwtDecode from "jwt-decode";
 
-const { default: httpService } = require("./httpService");
+// const { default: httpService } = require("./httpService");
 
 const TOKEN_KEY = "token";
 setTokenHeader();
 
 function setTokenHeader() {
-  httpService.setCommonHeader("x-auth-token", getJWT());
+  httpService.setCommonHeader("x-access-token", getJWT());
 }
 
 export function getJWT() {
@@ -15,11 +15,11 @@ export function getJWT() {
 }
 
 export function createUser(user) {
-  return httpService.post("/users", user);
+  return httpService.post("/user/signup", user);
 }
 
 export async function loginUser(credentials) {
-  const { data } = await httpService.post("/auth", credentials);
+  const { data } = await httpService.post("/user/signin", credentials);
   localStorage.setItem(TOKEN_KEY, data.token);
   setTokenHeader();
 }

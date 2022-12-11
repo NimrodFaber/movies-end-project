@@ -1,10 +1,8 @@
-// import { useState } from "react";
-// import { useContext, createContext } from "react";
-// import usersService from "../services/usersService";
+import { useContext, createContext } from "react";
 
 import { useState } from "react";
-import { createContext } from "react";
-import usersService from "../services/userservice";
+
+import usersService from "../services/userService.js";
 
 export const authContext = createContext(null);
 authContext.displayName = "auth-context";
