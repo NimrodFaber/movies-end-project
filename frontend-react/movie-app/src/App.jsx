@@ -4,6 +4,7 @@ import Header from "./componnets/Header";
 import { Route, Routes } from "react-router-dom";
 import About from "./componnets/pages/About";
 import Home from "./componnets/pages/Home";
+import SignIn from "./componnets/pages/SignIn";
 function App() {
   return (
     <div className="App d-flex  flex-column min-vh-100">
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home></Home>}></Route>
           <Route path="/about" element={<About></About>}></Route>
+          <Route path="/signin" element={<SignIn></SignIn>}></Route>
         </Routes>
       </main>
       <footer>
