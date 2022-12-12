@@ -25,7 +25,7 @@ function SignIn({ redirect }) {
         .email({ tlds: { allow: false } }),
       password: Joi.string().min(6).max(1024).required(),
     }),
-    async onsubmit(values) {
+    async onSubmit(values) {
       try {
         await login(values);
 
@@ -61,7 +61,11 @@ function SignIn({ redirect }) {
           error={form.touched.password && form.errors.password}
         />
         <div className="my-2">
-          <button disabled={!form.isValid} className="btn btn-primary">
+          <button
+            type="submit"
+            disabled={!form.isValid}
+            className="btn btn-primary"
+          >
             Sign In
           </button>
         </div>
@@ -71,18 +75,6 @@ function SignIn({ redirect }) {
 }
 
 export default SignIn;
-
-//         <div className="my-2">
-//           <button disabled={!form.isValid} className="btn btn-primary">
-//             Sign In
-//           </button>
-//         </div>
-//       </form>
-//     </>
-//   );
-// };
-
-// export default SignIn;
 
 // const SignIn = ({ redirect }) => {
 //   const [error, setError] = useState("");

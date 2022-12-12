@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
-
+import { useAuth } from "../context/authContext";
 function Header() {
+  const { user } = useAuth();
   return (
     <>
       <nav className="py-2 bg-warning border-bottom">
@@ -33,16 +34,26 @@ function Header() {
             </li>
           </ul>
           <ul className="nav">
-            <li className="nav-item">
-              <NavLink className="nav-link link-dark px-2" to={"Signin"}>
-                Sign In
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink className="nav-link link-dark px-2" to={"signup"}>
-                sign Up
-              </NavLink>
-            </li>
+            {user ? (
+              <li className="nav-item">
+                <NavLink className="nav-link link-dark px-2" to={"logout"}>
+                  Sign out
+                </NavLink>
+              </li>
+            ) : (
+              <>
+                <li className="nav-item">
+                  <NavLink className="nav-link link-dark px-2" to={"Signin"}>
+                    Sign In
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink className="nav-link link-dark px-2" to={"signup"}>
+                    sign Up
+                  </NavLink>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </nav>

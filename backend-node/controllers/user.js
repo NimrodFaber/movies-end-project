@@ -7,11 +7,38 @@ function signupUser(user) {
     const { error, value } = newUser.validateUserSchema().validate(user);
     if (error) reject(error);
     else {
-      await newUser.hashPassword();
-      newUser
-        .save()
-        .then((user) => resolve(user))
-        .catch((err) => reject(err));
+      const regex = new RegExp(
+        "^(?=.*?[A-Z])(?=.*?[a-z])(?=(.*?[0-9]){4})(?=.*?[#?!@$%^&*-]).{7,18}$"
+      );
+      let statusRegex = regex.test(newUser.password);
+      if (statusRegex) {
+        await newUser.hashPassword();
+        newUser
+          .save()
+          .then((user) => resolve(user))
+          .catch((err) => {
+            if (err.message) {
+              reject({
+                details: [
+                  {
+                    message: "this email is alredy in use.",
+                  },
+                ],
+              });
+            } else {
+              reject(err);
+            }
+          });
+      } else {
+        reject({
+          details: [
+            {
+              message:
+                "password must includes small and camel letters,4digits,lenght:7 to 18,and one !@#$%^&*",
+            },
+          ],
+        });
+      }
     }
   });
 }
@@ -29,7 +56,7 @@ function signInUser(email, password) {
           const token = await genareteToken(user);
           resolve(token);
         } else {
-          reject(err);
+          reject("check your email and password");
         }
       });
     } else {

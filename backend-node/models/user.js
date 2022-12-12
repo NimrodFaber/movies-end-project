@@ -15,18 +15,23 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 userSchema.methods.validateUserSchema = function () {
-  const userValidition = joi.object({
+  const validateUserSchema = joi.object({
     firstName: joi.string().min(3).max(30).required(),
     lastName: joi.string().min(3).max(30).required(),
     email: joi
       .string()
       .email({ tlds: { allow: false } })
       .required(),
-    password: joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")),
-    phone: joi.string().required(),
+    password: joi.string().required(),
+
+    phone: joi
+      .string()
+      .length(10)
+      .pattern(/^[0-9]+$/)
+      .required(),
     // favorite: joi.required(),
   });
-  return userValidition;
+  return validateUserSchema;
 };
 userSchema.methods.hashPassword = async function () {
   this.password = await bcrypt.hash(this.password, 10);

@@ -4,14 +4,14 @@ import { useState } from "react";
 import Input from "../coomon/Input";
 import PageHeader from "../coomon/PageHeader";
 import { formikValidateUsingJoi } from "../utils/formikvalidate";
-import { createUser } from "../../services/userService.js";
+import { createUser, loginUser } from "../../services/userService.js";
 import { useNavigate, Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../../context/authContext";
 
 function Signup({ redirect }) {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, login } = useAuth();
   const [error, setError] = useState("");
   const form = useFormik({
     validateOnMount: true,
@@ -24,38 +24,35 @@ function Signup({ redirect }) {
       //   favorite: "",
     },
     validate: formikValidateUsingJoi({
-      firstName: joi.string().min(3).max(30).required(),
-      lastName: joi.string().min(3).max(30).required(),
+      firstName: joi.string().min(1).max(30).required(),
+      lastName: joi.string().min(1).max(30).required(),
       email: joi
         .string()
         .email({ tlds: { allow: false } })
         .required(),
-      password: joi
-        .string()
-        .min(4)
-        .max(6000)
-        .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")),
+      password: joi.string().min(4).max(6000),
+
       phone: joi.string().required(),
       //   favorite: joi.string().min(10).max(10).required(),
     }),
     async onSubmit(values) {
       try {
         await createUser({ ...values });
-
+        await login({ email: values.email, password: values.password });
         if (redirect) {
           navigate(redirect);
         }
       } catch ({ response }) {
         if (response.status === 400) {
-          setError(response.data);
+          setError(response.data.details[0].message);
         }
       }
     },
   });
 
-  //   if (user) {
-  //     return <Navigate to="/" />;
-  //   }
+  if (user) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <>

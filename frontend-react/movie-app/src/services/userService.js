@@ -20,7 +20,7 @@ export function createUser(user) {
 
 export async function loginUser(credentials) {
   const { data } = await httpService.post("/user/signin", credentials);
-  localStorage.setItem(TOKEN_KEY, data.token);
+  localStorage.setItem(TOKEN_KEY, data);
   setTokenHeader();
 }
 
