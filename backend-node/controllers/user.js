@@ -1,7 +1,7 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-function signupUser(user) {
+function signUpUser(user) {
   return new Promise(async (resolve, reject) => {
     const newUser = new User(user);
     const { error, value } = newUser.validateUserSchema().validate(user);
@@ -47,6 +47,28 @@ const genareteToken = (user) => {
     expiresIn: "31111m",
   });
 };
+function addFavMovie(card, userId) {
+  return new Promise(async (resolve, reject) => {
+    const user = await User.findById(userId);
+    if (user) {
+      user.favorite.push(card);
+      user.save();
+      resolve(card);
+    } else {
+      reject("no card to save");
+    }
+  });
+}
+function getAllFavorite(userId) {
+  return new Promise(async (resolve, reject) => {
+    const user = await User.findById(userId);
+    if (user) {
+      resolve(user.favorite);
+    } else {
+      reject("plz sign in first");
+    }
+  });
+}
 function signInUser(email, password) {
   return new Promise(async (resolve, reject) => {
     const user = await User.findOne({ email });
@@ -65,4 +87,10 @@ function signInUser(email, password) {
   });
 }
 
-module.exports = { signupUser, signInUser, genareteToken };
+module.exports = {
+  signUpUser,
+  signInUser,
+  genareteToken,
+  addFavMovie,
+  getAllFavorite,
+};

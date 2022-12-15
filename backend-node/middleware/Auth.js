@@ -13,9 +13,11 @@ const verifyToken = async (req, res, next) => {
   if (token.split(" ").length > 1) token = token.split(" ")[1];
   try {
     const decoded = jwt.verify(token, "mySecretKey");
-    req.user._id = decoded.user._id;
+    req.user_id = decoded.user_id;
   } catch (err) {
     return res.status(401).send("Invalid Token");
   }
   return next();
 };
+
+module.exports = verifyToken;

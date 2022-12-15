@@ -7,6 +7,9 @@ import Home from "./componnets/pages/Home";
 import SignIn from "./componnets/pages/SignIn";
 import Signup from "./componnets/pages/SignUp";
 import Logout from "./componnets/pages/logout";
+import Movies from "./componnets/pages/movies";
+import ProtectedRoute from "./componnets/coomon/protectedrout";
+import Favorite from "./componnets/pages/Favoriets";
 function App() {
   return (
     <div className="App d-flex  flex-column min-vh-100">
@@ -29,6 +32,22 @@ function App() {
           <Route
             path="/logout"
             element={<Logout redirect="/signin"></Logout>}
+          ></Route>
+          <Route
+            path="/movies"
+            element={
+              <ProtectedRoute>
+                <Movies></Movies>
+              </ProtectedRoute>
+            }
+          ></Route>
+          <Route
+            path="/favorite"
+            element={
+              <ProtectedRoute>
+                <Favorite />
+              </ProtectedRoute>
+            }
           ></Route>
         </Routes>
       </main>

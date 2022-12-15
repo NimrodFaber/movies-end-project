@@ -3,11 +3,17 @@ const app = express();
 const router = express.Router();
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
-const { signupUser, signInUser } = require("../controllers/user");
+const auth = require("../middleware/auth");
+const {
+  signUpUser,
+  signInUser,
+  addFavMovie,
+  getAllFavorite,
+} = require("../controllers/user");
 router.post("/signup", (req, res) => {
   let { firstName, lastName, password, email, phone } = req.body;
   let user = { firstName, lastName, password, email, phone };
-  signupUser(user)
+  signUpUser(user)
     .then((user) => res.status(200).json(user))
     .catch((err) => res.status(400).json(err));
 });
@@ -19,5 +25,16 @@ router.post("/signin", (req, res) => {
   signInUser(email, password)
     .then((token) => res.status(200).json(token))
     .catch((err) => res.status(400).json(err));
+});
+router.post("/favorite", auth, async (req, res) => {
+  const title = req.body;
+  addFavMovie(Object.keys(title)[0], req.user_id)
+    .then((user) => res.status(200).json(user))
+    .catch((err) => res.status(400).send(err));
+});
+router.get("/getallfavorite", auth, async (req, res) => {
+  getAllFavorite(req.user_id)
+    .then((user) => res.status(200).json(user))
+    .catch((err) => res.status(400).send(err));
 });
 module.exports = router;

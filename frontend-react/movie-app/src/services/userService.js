@@ -17,7 +17,7 @@ export function getJWT() {
 export function createUser(user) {
   return httpService.post("/user/signup", user);
 }
-
+// export function addToFavorites()
 export async function loginUser(credentials) {
   const { data } = await httpService.post("/user/signin", credentials);
   localStorage.setItem(TOKEN_KEY, data);

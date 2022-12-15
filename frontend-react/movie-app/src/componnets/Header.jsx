@@ -35,11 +35,23 @@ function Header() {
           </ul>
           <ul className="nav">
             {user ? (
-              <li className="nav-item">
-                <NavLink className="nav-link link-dark px-2" to={"logout"}>
-                  Sign out
-                </NavLink>
-              </li>
+              <>
+                <li className="nav-item">
+                  <NavLink className="nav-link link-dark px-2" to={"logout"}>
+                    Sign out
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink to="movies" className="nav-link">
+                    movies
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink to="favorite" className="nav-link">
+                    Favorite
+                  </NavLink>
+                </li>
+              </>
             ) : (
               <>
                 <li className="nav-item">

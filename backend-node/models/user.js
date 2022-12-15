@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema(
     password: { type: String, require: "password is require" },
     email: { type: String, require: "email is require", unique: true },
     phone: { type: String, require: "phone is require" },
-    // favorite: { type: [String] },
+    favorite: Array,
     isAdmin: { type: Boolean, default: false },
   },
   { timestamps: true }
