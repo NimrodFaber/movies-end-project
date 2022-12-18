@@ -17,21 +17,6 @@ function Header() {
                 about
               </NavLink>
             </li>
-            <li className="nav-item">
-              <NavLink className="nav-link link-dark px-2" to={"favoriets"}>
-                favoriets
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink className="nav-link link-dark px-2" to={"about"}>
-                home
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink className="nav-link link-dark px-2" to={"about"}>
-                home
-              </NavLink>
-            </li>
           </ul>
           <ul className="nav">
             {user ? (
@@ -77,17 +62,6 @@ function Header() {
           >
             <span className="fs-4">Best Movies</span>
           </a>
-          <form className="col-12 col-lg-auto mb-3 mb-lg-0" role="search">
-            <input
-              type="search"
-              className="form-control"
-              placeholder="Search..."
-              aria-label="Search"
-            ></input>
-          </form>
-          <button type="button" className="btn btn-warning">
-            Warning
-          </button>
         </div>
       </header>
     </>
@@ -95,3 +69,16 @@ function Header() {
 }
 
 export default Header;
+{
+  /* <form className="col-12 col-lg-auto mb-3 mb-lg-0" role="search">
+<input
+  type="search"
+  className="form-control"
+  placeholder="Search..."
+  aria-label="Search"
+></input>
+</form>
+<button type="button" className="btn btn-warning">
+Warning
+</button> */
+}
