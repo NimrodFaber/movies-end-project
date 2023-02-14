@@ -55,6 +55,7 @@ body {
 .image-container {
   position: relative;
   transition: transform 0.2s;
+  width: 300px !important;
 }
 
 .image-container:hover {
@@ -76,4 +77,25 @@ body {
   font-size: 20px;
   padding: 20px;
   text-align: center;
+}
+button.delete-favorite {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #170707;
+  background-color: #b3ff00;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+button.delete-favorite:hover {
+  background-color: #741212;
+}
+
+.image-container {
+  flex-direction: column;
+  align-items: center;
 }

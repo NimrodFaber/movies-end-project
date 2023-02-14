@@ -9,6 +9,7 @@ const {
   signInUser,
   addFavMovie,
   getAllFavorite,
+  deleteFromFav,
 } = require("../controllers/user");
 router.post("/signup", (req, res) => {
   let { firstName, lastName, password, email, phone } = req.body;
@@ -34,6 +35,12 @@ router.post("/favorite", auth, async (req, res) => {
 });
 router.get("/getallfavorite", auth, async (req, res) => {
   getAllFavorite(req.user_id)
+    .then((user) => res.status(200).json(user))
+    .catch((err) => res.status(400).send(err));
+});
+router.patch("/delete", auth, async (req, res) => {
+  const title = req.body;
+  deleteFromFav(req.user_id, Object.keys(title)[0])
     .then((user) => res.status(200).json(user))
     .catch((err) => res.status(400).send(err));
 });
