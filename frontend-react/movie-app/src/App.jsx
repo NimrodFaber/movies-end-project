@@ -10,6 +10,9 @@ import Logout from "./componnets/pages/logout";
 import Movies from "./componnets/pages/movies";
 import ProtectedRoute from "./componnets/coomon/protectedrout";
 import Favorite from "./componnets/pages/Favoriets";
+import CreateNote from "./componnets/noteFolder/createNote";
+import MyNotes from "./componnets/pages/myNotes";
+import DeleteNote from "./componnets/noteFolder/deleteNote";
 function App() {
   return (
     <div className="App d-flex  flex-column min-vh-100">
@@ -25,6 +28,9 @@ function App() {
             path="/signin"
             element={<SignIn redirect={"/"}></SignIn>}
           ></Route>
+          <Route path="/my-notes/delete/:id" element={<DeleteNote />} />
+          <Route path="my-notes" element={<MyNotes />} />
+          <Route path="my-notes/create-note" element={<CreateNote />} />
           <Route
             path="/signup"
             element={<Signup redirect="/"></Signup>}

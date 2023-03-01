@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema(
     password: { type: String, require: "password is require" },
     email: { type: String, require: "email is require", unique: true },
     phone: { type: String, require: "phone is require" },
+    notes: Array,
     favorite: Array,
     isAdmin: { type: Boolean, default: false },
   },
@@ -36,4 +37,12 @@ userSchema.methods.validateUserSchema = function () {
 userSchema.methods.hashPassword = async function () {
   this.password = await bcrypt.hash(this.password, 10);
 };
+function validateNotes(data) {
+  const schema = Joi.object({
+    notes: Joi.array().min(1).required(),
+  });
+
+  return schema.validate(data);
+}
+exports.validateNotes = validateNotes;
 module.exports = mongoose.model("User", userSchema, "users");

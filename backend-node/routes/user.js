@@ -4,6 +4,9 @@ const router = express.Router();
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const auth = require("../middleware/auth");
+const { validateNotes } = require("../models/note");
+const { Note } = require("../models/note");
+const _ = require("lodash");
 const {
   signUpUser,
   signInUser,
@@ -11,6 +14,34 @@ const {
   getAllFavorite,
   deleteFromFav,
 } = require("../controllers/user");
+const getNotes = async (notesArray) => {
+  const notes = await Note.find({ noteId: { $in: notesArray } });
+  return notes;
+};
+
+router.get("/notes", auth, async (req, res) => {
+  if (!req.query.numbers) res.status(400).send("Missing numbers data");
+
+  let data = {};
+  data.notes = req.query.numbers.split(",");
+
+  const notes = await getNotes(data.notes);
+  res.send(notes);
+});
+
+router.patch("/notes", auth, async (req, res) => {
+  const { error } = validateNotes(req.body);
+  if (error) res.status(400).send(error.details[0].message);
+
+  const notes = await getNotes(req.body.notes);
+  if (notes.length != req.body.notes.length)
+    res.status(400).send("Note numbers don't match");
+
+  let user = await User.findById(req.user._id);
+  user.notes = req.body.notes;
+  user = await user.save();
+  res.send(user);
+});
 router.post("/signup", (req, res) => {
   let { firstName, lastName, password, email, phone } = req.body;
   let user = { firstName, lastName, password, email, phone };
